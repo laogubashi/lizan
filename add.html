@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>礼物添加</title>
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<style>
+.show img {
+    width: 100%;
+}
+.row {
+    margin-top:20px;
+}
+</style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="position:relative">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">LZ</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+              <li><a href="index.html">主页</a></li>
+            <li class="active"><a href="add.html">礼品添加</a></li>
+            <li><a href="view.html">礼品预览</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    
+    
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2">
+        送礼者
+        <select class="form-control step1">
+        <option value="10">男逗比</option>
+        <option value="20">女文艺</option>
+        <option value="30">女逗比</option>
+        <option value="40">女文艺</option>
+        </select>
+        </div>
+        <div class="col-sm-2">
+        对象
+        <select class="form-control step2">
+        <option value="0">所有对象</option>
+        <option value="10">男女朋友</option>
+        <option value="20">闺密基友小伙伴</option>
+        <option value="30">family</option>
+        <option value="40">工作团队</option>
+        </select>
+        </div>
+        <div class="col-sm-2">
+        这货的标签
+        <select class="form-control step3">
+        <option value="0">无</option>
+        <option value="10">傲娇</option>
+        <option value="20">逗比</option>
+        <option value="30">吃货</option>
+        <option value="40">工作狂</option>
+        </select>
+        </div>
+        <div class="col-sm-2">
+        场景
+        <select class="form-control step4">
+        <option value="0">所有场景</option>
+        <option value="10">生日／纪念日</option>
+        <option value="20">分享／鼓励</option>
+        <option value="30">道歉／表白</option>
+        <option value="40">犒赏自己</option>
+        </select>
+        </div>
+        <div class="col-sm-2">
+        礼物分类
+        <select class="form-control step5">
+        <option value="10">书籍/字画</option>
+        <option value="20">美食/花茶/甜点</option>
+        <option value="30">鲜花/绿植</option>
+        <option value="40">创意/脑洞</option>
+        <option value="50">智能/电子</option>
+        <option value="60">工艺/收藏</option>
+        <option value="70">配饰/珠宝</option>
+        <option value="80">模型/动漫</option>
+        <option value="90">美妆/香水</option>
+        </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 text-center">
+            礼物名称：
+        </div>
+        <div class="col-sm-10">
+            <input class="form-control name">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 text-center">
+            图片链接：
+        </div>
+        <div class="col-sm-10">
+            <input class="form-control image">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 text-center">
+            图片上传：
+        </div>
+        <div class="col-sm-4 text-center">
+            <input type="file" id="profilePhotoFileUpload">
+        </div>
+        <div class="col-sm-6">
+            <button class="btn btn-default upload">上传</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 text-center">
+           　描述：
+        </div>
+        <div class="col-sm-10">
+            <input class="form-control content">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 text-center">
+           　购买链接：
+        </div>
+        <div class="col-sm-10">
+            <input class="form-control url">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 text-center">
+            价格：
+        </div>
+        <div class="col-sm-10">
+            <input class="form-control price">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 text-center">
+        <button type="submit" class="btn btn-default check">添加</button>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="https://leancloud.cn/scripts/lib/av-0.5.0.min.js"></script>
+<script>
+AV.initialize("qcymk9atgezblhssfzy5eezf646gq86p68zvfd3jbka5duld", "mqx7mlic5bf3rw3yazfkoneqhhdbgx08zjb1boebcjt2wgvn");
+var Gift = AV.Object.extend("gift");
+var main = function(){
+    $('.upload').on('click', function(){
+        var fileUploadControl = $("#profilePhotoFileUpload")[0];
+        if (fileUploadControl.files.length > 0) {
+          var file = fileUploadControl.files[0];
+          var name = fileUploadControl.files[0].name;
+
+          var avFile = new AV.File(name, file);
+          avFile.save().then(function() {
+                alert('上传成功')
+                $('.image').val(avFile.url())
+              // The file has been saved to AV.
+            }, function(error) {
+              // The file either could not be read, or could not be saved to AV.
+            });
+        }
+    })
+    $('.check').on('click', function(){
+        var type = $('.step1').val()+$('.step2').val()+$('.step3').val()+$('.step4').val(),
+            style = $('.step5').val(),
+            name = $('.name').val(),
+            image = $('.image').val(),
+            url  = $('.url').val(),
+            price  = $('.price').val(),
+            content = $('.content').val();
+        if (type < 1000000) {
+        	type = 0;
+        };
+        var list = [name, image, url, content];
+        var auth = 0;
+        $.each(list, function(n, val){
+            if (val == ''){
+                auth = 1;
+            }
+        })
+        if (auth == 1){
+            alert('请填写完整数据')
+            return
+        }
+        var gift = new Gift();
+        
+        gift.set("type", parseInt(type));
+        gift.set("style", style);
+        gift.set("name", name);
+        gift.set("image", image);
+        gift.set("url", url);
+        gift.set("price", parseInt(price));
+        gift.set("content", content);
+        gift.save(null, {
+          success: function(gift) {
+            alert('保存成功');
+          },
+          error: function(gift, error) {
+              //alert(JSON.stringify(error))
+            alert('保存失败，请检查信息填写是否完整');
+            console.log(error)
+          }
+        });
+        /*
+        data = {'type': type};
+        data = 0;
+        AV.Cloud.run('find_gift', data, {
+          success: function(result) {
+            console.log(result)
+          },
+          error: function(error) {
+            console.log(error)
+          }
+        });*/
+    });
+}
+main()
+</script>
+</body>
+</html>
+

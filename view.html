@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>礼物预览</title>
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<style>
+.show img {
+    width: 100%;
+}
+.row {
+    margin-top:20px;
+}
+</style>
+</head>
+<body>
+    
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="position:relative">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">LZ</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+              <li><a href="index.html">主页</a></li>
+            <li><a href="add.html">礼品添加</a></li>
+            <li class="active"><a href="view.html">礼品预览</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2">
+        送礼者
+        <select class="form-control step1">
+        <option value="10">男逗比</option>
+        <option value="20">女文艺</option>
+        <option value="30">女逗比</option>
+        <option value="40">女文艺</option>
+        </select>
+        </div>
+        <div class="col-sm-2">
+        对象
+        <select class="form-control step2">
+        <option value="0">所有对象</option>
+        <option value="10">男女朋友</option>
+        <option value="20">闺密基友小伙伴</option>
+        <option value="30">family</option>
+        <option value="40">工作团队</option>
+        </select>
+        </div>
+        <div class="col-sm-2">
+        这货的标签
+        <select class="form-control step3">
+        <option value="0">无</option>
+        <option value="10">傲娇</option>
+        <option value="20">逗比</option>
+        <option value="30">吃货</option>
+        <option value="40">工作狂</option>
+        </select>
+        </div>
+        <div class="col-sm-2">
+        场景
+        <select class="form-control step4">
+        <option value="0">所有场景</option>
+        <option value="10">生日／纪念日</option>
+        <option value="20">分享／鼓励</option>
+        <option value="30">道歉／表白</option>
+        <option value="40">犒赏自己</option>
+        </select>
+        </div>
+
+        <div class="col-sm-2">
+        <div>操作</div>
+        <button type="submit" class="btn btn-default check">查看</button>
+        </div>
+    </div>
+    <div class="row show">
+    </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="https://leancloud.cn/scripts/lib/av-0.5.0.min.js"></script>
+<script>
+var STYLE = {
+    "10":"书籍/字画",
+    "20":"美食/花茶/甜点",
+    "30":"鲜花/绿植",
+    "40":"创意/脑洞",
+    "50":"智能/电子",
+    "60":"工艺/收藏",
+    "70":"配饰/珠宝",
+    "80":"模型/动漫",
+    "90":"美妆/香水"
+}
+AV.initialize("qcymk9atgezblhssfzy5eezf646gq86p68zvfd3jbka5duld", "mqx7mlic5bf3rw3yazfkoneqhhdbgx08zjb1boebcjt2wgvn");
+var main = function(){
+    $('.check').on('click', function(){
+        var type = $('.step1').val()+$('.step2').val()+$('.step3').val()+$('.step4').val();
+        if (type < 1000000) {
+        	type = 0;
+        };
+        var query = new AV.Query('gift');
+        query.equalTo("type", parseInt(type));
+        query.find({
+          success: function(results) {
+            var $show = $('.show');
+            $show.children().remove();
+            if (results.length === 0){
+                $show.append('<div>该条件下无数据</div>')
+            };
+            for (var i = 0; i < results.length; i++) {
+              var object = results[i], n = i;
+              $show.append('<div class="col-sm-2 gift-'+n+'">' +
+                    '<div>' + object.get('name') + '</div>' +
+                    '<div><img src="' + object.get('image') + '"></div>' +
+                    '<div>礼物分类：' + STYLE[object.get('style')] + '</div>' +
+                    '<div>' + object.get('content') + '</div>' +
+                    '<div>价格：' + object.get('price') + '</div>' +
+                    '<div><a href="' + object.get('url') + '">购买地址</a></div>' +
+                    '<div><button class="btn btn-default del-'+n+'">删除</button></div>' +
+                '</div>'
+              )
+              $('.del-' + n).on('click', function(){
+                  object.destroy({
+                      success: function(object) {
+                        alert('删除成功')
+                        $('.gift-'+n).remove()
+                        // The object was deleted from the LeanCloud.
+                      },
+                      error: function(object, error) {
+                        alert(error)
+                        // The delete failed.
+                        // error is a AV.Error with an error code and description.
+                      }
+                    });
+              })
+            }
+          },
+          error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+          }
+        });
+        /*
+        data = {'type': type};
+        data = 0;
+        AV.Cloud.run('find_gift', data, {
+          success: function(result) {
+            console.log(result)
+          },
+          error: function(error) {
+            console.log(error)
+          }
+        });*/
+    });
+}
+main()
+</script>
+</body>
+</html>
+
