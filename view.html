@@ -17,10 +17,18 @@
 <![endif]-->
 <style>
 .show img {
-    width: 100%;
+	width:100%;
+    max-height:160px;
 }
 .row {
     margin-top:20px;
+}
+.gift-show {
+	height: 500px;
+}
+.gift-show .gift-content {
+	height: 200px;
+	overflow: hidden;
 }
 </style>
 </head>
@@ -39,7 +47,6 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-              <li><a href="index.html">主页</a></li>
             <li><a href="add.html">礼品添加</a></li>
             <li class="active"><a href="view.html">礼品预览</a></li>
           </ul>
@@ -91,6 +98,7 @@
         <div class="col-sm-2">
         <div>操作</div>
         <button type="submit" class="btn btn-default check">查看</button>
+        <button type="submit" class="btn btn-default check-all">所有礼品</button>
         </div>
     </div>
     <div class="row show">
@@ -115,48 +123,81 @@ var STYLE = {
     "90":"美妆/香水"
 }
 AV.initialize("qcymk9atgezblhssfzy5eezf646gq86p68zvfd3jbka5duld", "mqx7mlic5bf3rw3yazfkoneqhhdbgx08zjb1boebcjt2wgvn");
+    var addGift = function($show, object, n){
+    	$show.append('<div class="col-sm-2 gift-show gift-'+n+'">' +
+                     '<div>' + object.get('name') + '</div>' +
+                     '<div><img src="' + object.get('image') + '"></div>' +
+                     '<div>礼物分类：' + STYLE[object.get('style')] + '</div>' +
+                     '<div class="gift-content">' + object.get('content') + '</div>' +
+                     '<div>价格：' + object.get('price') + '</div>' +
+                     '<div><a href="' + object.get('url') + '">购买地址</a></div>' +
+                     '<div><button class="btn btn-default del-'+n+'">删除</button>' +
+                     '<button class="btn btn-default edit-'+n+'">修改</button></div>' +
+                     '</div>'
+                    )
+        $('.del-' + n).on('click', function(){
+            object.destroy({
+                success: function(object) {
+                    alert('删除成功')
+                    $('.gift-'+n).remove()
+                    // The object was deleted from the LeanCloud.
+                },
+                error: function(object, error) {
+                    alert(error)
+                    // The delete failed.
+                    // error is a AV.Error with an error code and description.
+                }
+            });
+        })
+        $('.edit-' + n).on('click', function(){
+                object.save(null, {
+                success: function(object) {
+                    alert('修改成功')
+                    
+                    // The object was deleted from the LeanCloud.
+                },
+                error: function(object, error) {
+                    alert(error)
+                    // The delete failed.
+                    // error is a AV.Error with an error code and description.
+                }
+            });
+        })
+    }
+    var resHandler = function(results){
+    	var $show = $('.show');
+        $show.children().remove();
+        if (results.length === 0){
+            $show.append('<div>该条件下无数据</div>')
+        };
+        for (var i = 0; i < results.length; i++) {
+            var object = results[i], n = i;
+            addGift($show, object, n);
+        }
+    }
+    
 var main = function(){
+    $('.check-all').on('click', function(){
+    	var query = new AV.Query('gift');
+        query.find({
+          success: function(results) {
+            resHandler(results);
+          },
+          error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+          }
+        });
+    })
     $('.check').on('click', function(){
         var type = $('.step1').val()+$('.step2').val()+$('.step3').val()+$('.step4').val();
-        if (type < 1000000) {
+        if (type < 10000000) {
         	type = 0;
         };
         var query = new AV.Query('gift');
         query.equalTo("type", parseInt(type));
         query.find({
           success: function(results) {
-            var $show = $('.show');
-            $show.children().remove();
-            if (results.length === 0){
-                $show.append('<div>该条件下无数据</div>')
-            };
-            for (var i = 0; i < results.length; i++) {
-              var object = results[i], n = i;
-              $show.append('<div class="col-sm-2 gift-'+n+'">' +
-                    '<div>' + object.get('name') + '</div>' +
-                    '<div><img src="' + object.get('image') + '"></div>' +
-                    '<div>礼物分类：' + STYLE[object.get('style')] + '</div>' +
-                    '<div>' + object.get('content') + '</div>' +
-                    '<div>价格：' + object.get('price') + '</div>' +
-                    '<div><a href="' + object.get('url') + '">购买地址</a></div>' +
-                    '<div><button class="btn btn-default del-'+n+'">删除</button></div>' +
-                '</div>'
-              )
-              $('.del-' + n).on('click', function(){
-                  object.destroy({
-                      success: function(object) {
-                        alert('删除成功')
-                        $('.gift-'+n).remove()
-                        // The object was deleted from the LeanCloud.
-                      },
-                      error: function(object, error) {
-                        alert(error)
-                        // The delete failed.
-                        // error is a AV.Error with an error code and description.
-                      }
-                    });
-              })
-            }
+            resHandler(results);
           },
           error: function(error) {
             alert("Error: " + error.code + " " + error.message);
@@ -179,4 +220,5 @@ main()
 </script>
 </body>
 </html>
+
 

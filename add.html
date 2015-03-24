@@ -38,7 +38,6 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-              <li><a href="index.html">主页</a></li>
             <li class="active"><a href="add.html">礼品添加</a></li>
             <li><a href="view.html">礼品预览</a></li>
           </ul>
@@ -151,7 +150,7 @@
             价格：
         </div>
         <div class="col-sm-10">
-            <input class="form-control price">
+            <input required="num" class="form-control price">
         </div>
     </div>
     <div class="row">
@@ -192,12 +191,12 @@ var main = function(){
             name = $('.name').val(),
             image = $('.image').val(),
             url  = $('.url').val(),
-            price  = $('.price').val(),
+            price  = parseInt($('.price').val()),
             content = $('.content').val();
-        if (type < 1000000) {
+        if (type < 10000000) {
         	type = 0;
         };
-        var list = [name, image, url, content];
+        var list = [name, image, content];
         var auth = 0;
         $.each(list, function(n, val){
             if (val == ''){
@@ -209,7 +208,9 @@ var main = function(){
             return
         }
         var gift = new Gift();
-        
+        if (!price) {
+	        price = 0;
+        }
         gift.set("type", parseInt(type));
         gift.set("style", style);
         gift.set("name", name);
@@ -244,4 +245,5 @@ main()
 </script>
 </body>
 </html>
+
 
